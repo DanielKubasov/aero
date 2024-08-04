@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
+
+        --paragraph: 0 0% 25%;
+        --paragraph-muted:  0 0% 50%;
+
+        --primary-300: 175 99% 34%;
+        --primary-400: 175 99% 44%;
+        --primary-500: 175 99% 54%;
+
+        --secondary-300: 240 4.8% 55.9%;
+        --secondary-400: 240 4.8% 75.9%;
+        --secondary-500: 240 4.8% 95.9%;
+
+        --destructive: 358 100% 60%;
+        --positive: 120 100% 40%;
+
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 20 14.3% 4.1%;
+        --foreground: 0 0% 95%;
+
+        --paragraph: 0 0% 90%;
+        --paragraph-muted:  0 0% 80%;
+
+        --primary-300: 142.1 76.2% 16.3%;
+        --primary-400: 142.1 76.2% 36.3%;
+        --primary-500: 142.1 76.2% 56.3%;
+
+        --secondary-300: 240 4.8% 55.9%;
+        --secondary-400: 240 4.8% 75.9%;
+        --secondary-500: 240 4.8% 95.9%;
+
+        --destructive: 0 62.8% 30.6%;
+        --positive: 0 62.8% 30.6%;
+    }
+}
+
+@layer base {
+    :root {
+        min-width: 1024px;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+
+        line-height: 1.6;
+
+        transition-property: opacity, background, transform, filter;
+        transition-timing-function: ease;
+        transition-duration: 500ms;
+    }
+
+    /*.page-transition {*/
+    /*    opacity: 0;*/
+    /*    background: #000;*/
+    /*    transform: translateY(40px);*/
+    /*    filter: blur(12px);*/
+    /*}*/
+}
