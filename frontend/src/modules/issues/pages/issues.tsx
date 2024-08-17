@@ -14,26 +14,68 @@ import {
 
 export const Issues: FC = () => {
     return (
-        <section className="p-6">
-            <Table className="w-1/2">
+        <main className='container'>
+            <Table className="w-full">
                 <TableCaption>A list of your recent invoices.</TableCaption>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">Invoice</TableHead>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Title</TableHead>
                         <TableHead>Status</TableHead>
-                        <TableHead>Method</TableHead>
-                        <TableHead className="text-right">Amount</TableHead>
+                        <TableHead>Priority</TableHead>
+                        <TableHead>Assignee</TableHead>
+                        <TableHead>Due Date</TableHead>
+                        <TableHead>Tags</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     <TableRow>
-                        <TableCell className="font-medium">INV001</TableCell>
-                        <TableCell>Paid</TableCell>
-                        <TableCell>Credit Card</TableCell>
-                        <TableCell className="text-right">$250.00</TableCell>
+                        <TableCell className='py-6'>1</TableCell>
+                        <TableCell>A title of an issue</TableCell>
+                        <TableCell>In progress</TableCell>
+                        <TableCell>Normal</TableCell>
+                        <TableCell>Daniel Kubasov</TableCell>
+                        <TableCell>21.02.2024</TableCell>
+                        <TableCell>Bug, Cosmetic</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='py-6'>1</TableCell>
+                        <TableCell>A title of an issue</TableCell>
+                        <TableCell>In progress</TableCell>
+                        <TableCell>Normal</TableCell>
+                        <TableCell>Daniel Kubasov</TableCell>
+                        <TableCell>21.02.2024</TableCell>
+                        <TableCell>Bug, Cosmetic</TableCell>
+                    </TableRow>
+                    <TableRow >
+                        <TableCell className='py-6'>1</TableCell>
+                        <TableCell>A title of an issue</TableCell>
+                        <TableCell>In progress</TableCell>
+                        <TableCell>Normal</TableCell>
+                        <TableCell>Daniel Kubasov</TableCell>
+                        <TableCell>21.02.2024</TableCell>
+                        <TableCell>Bug, Cosmetic</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='py-6'>1</TableCell>
+                        <TableCell>A title of an issue</TableCell>
+                        <TableCell>In progress</TableCell>
+                        <TableCell>Normal</TableCell>
+                        <TableCell>Daniel Kubasov</TableCell>
+                        <TableCell>21.02.2024</TableCell>
+                        <TableCell>Bug, Cosmetic</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className='py-6'>1</TableCell>
+                        <TableCell>A title of an issue</TableCell>
+                        <TableCell>In progress</TableCell>
+                        <TableCell>Normal</TableCell>
+                        <TableCell>Daniel Kubasov</TableCell>
+                        <TableCell>21.02.2024</TableCell>
+                        <TableCell>Bug, Cosmetic</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
-        </section>
+        </main>
     );
 };

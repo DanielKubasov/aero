@@ -15,7 +15,7 @@ export const NavigationItem: FC<NavigationItemType> = ({icon, label, path}) => {
 
     return (
         <button
-            className="flex w-full px-3 py-2 gap-3 rounded-md items-center bg-neutral-100 transition-all hover:bg-foreground hover:text-background"
+            className="flex w-full px-3 py-2 gap-3 rounded-md items-center bg-background transition-all hover:bg-primary hover:text-background"
             type="button"
             onClick={handler}
         >

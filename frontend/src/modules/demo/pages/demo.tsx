@@ -3,12 +3,11 @@ import {FC} from 'react';
 import {Heading} from '@/ui/typography/Heading';
 import {Paragraph} from '@/ui/typography/Paragraph';
 import {Small} from '@/ui/typography/Small';
-import {Container} from '@/ui/container';
 import {Circle} from '../components/Circle';
 
 export const Demo: FC = async () => {
     return (
-        <Container>
+        <main className='container'>
             <Heading level={1}>Heading level 1.</Heading>
             <Heading level={2}>Heading level 2.</Heading>
             <Heading level={3}>Heading level 3.</Heading>
@@ -78,6 +77,6 @@ export const Demo: FC = async () => {
                     positive
                 </li>
             </ul>
-        </Container>
+        </main>
     );
 };

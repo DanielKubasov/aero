@@ -4,7 +4,6 @@ import {Open_Sans} from 'next/font/google';
 import '@/core/styles/globals.css';
 
 import {ThemeProvider} from '@/core/providers/ThemeProvider';
-
 import {Navigation} from '@/core/navigation';
 
 
@@ -17,17 +16,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode }>) {
     return (
-        <ThemeProvider defaultTheme="light" storageKey="ui-theme">
-            <html lang="en">
-                <body className={openSans.className}>
-                    <div className="flex h-screen bg-neutral-50 dark:bg-neutral-900">
-                        <Navigation />
-                        <main className="w-full flex-shrink-1 flex-grow-0 bg-background rounded-xl">
+        <html lang="en">
+            <body className={openSans.className}>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <div className="flex h-screen">
+                        <Navigation/>
+                        <main className="w-full flex-shrink-1 flex-grow-0">
                             {children}
                         </main>
                     </div>
-                </body>
-            </html>
-        </ThemeProvider>
+                </ThemeProvider>
+            </body>
+        </html>
     );
 }

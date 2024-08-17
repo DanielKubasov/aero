@@ -16,23 +16,18 @@ module.exports = {
         },
         extend: {
             colors: {
-                background: 'hsl(var(--background))',
-                foreground: 'hsl(var(--foreground))',
-                primary: {
-                    300: 'hsl(var(--primary-300))',
-                    400: 'hsl(var(--primary-400))',
-                    500: 'hsl(var(--primary-500))',
-                },
-                secondary: {
-                    300: 'hsl(var(--secondary-300))',
-                    400: 'hsl(var(--secondary-400))',
-                    500: 'hsl(var(--secondary-500))',
-                },
-                destructive: 'hsl(var(--destructive))',
-                positive: 'hsl(var(--positive))',
-                paragraph: {
-                    DEFAULT: 'hsl(var(--paragraph))',
-                    muted: 'hsl(var(--paragraph-muted))',
+                'background': 'hsl(var(--background))',
+                'foreground': 'hsl(var(--foreground))',
+                'primary': 'hsl(var(--primary))',
+                'primary-background': 'hsl(var(--primary-background))',
+                'primary-foreground': 'hsl(var(--primary-foreground))',
+                'secondary': 'hsl(var(--secondary))',
+                'secondary-foreground': 'hsl(var(--secondary-foreground))',
+                'destructive': 'hsl(var(--destructive))',
+                'positive': 'hsl(var(--positive))',
+                'paragraph': {
+                    'DEFAULT': 'hsl(var(--paragraph))',
+                    'muted': 'hsl(var(--paragraph-muted))',
                 },
             },
             borderRadius: {
