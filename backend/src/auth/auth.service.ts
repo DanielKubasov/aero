@@ -1,4 +1,4 @@
-import {ConflictException, Injectable, UnauthorizedException} from '@nestjs/common';
+import {BadRequestException, ConflictException, Injectable} from '@nestjs/common';
 
 import {PrismaService} from '../prisma/prisma.service';
 import {JwtService} from '@nestjs/jwt';
@@ -15,11 +15,11 @@ export class AuthService {
 
     async signIn(data: SignInDTO) {
         const user = await this.prisma.user.findUnique({
-            where: {username: data.email},
+            where: {email: data.email},
         });
 
         if (user?.password !== data.password) {
-            throw new UnauthorizedException();
+            throw new BadRequestException('Passwords do not match');
         }
 
         const payload = {sub: user.id, username: user.username};
@@ -37,5 +37,7 @@ export class AuthService {
         if (user) {
             throw new ConflictException('User already exists');
         }
+
+        return await this.prisma.user.create({data});
     }
 }

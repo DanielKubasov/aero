@@ -11,7 +11,15 @@ import {AuthController} from './auth.controller';
 import {AuthGuard} from './guards/auth.guard';
 
 @Module({
-    imports: [UsersModule, PrismaModule, JwtModule],
+    imports: [
+        UsersModule,
+        PrismaModule,
+        JwtModule.register({
+            global: true,
+            secret: process.env.JWT_SECRET,
+            signOptions: {expiresIn: '15m'},
+        }),
+    ],
     providers: [
         AuthService,
         {
