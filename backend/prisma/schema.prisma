@@ -13,9 +13,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id Int @default(autoincrement()) @id()
-  email String @unique
-  username String @unique
-  password String
+model Users {
+  id        Int @default(autoincrement()) @id()
+  email     String @unique
+  username  String @unique
+  password  String
+  tasks     Tasks[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tasks {
+  id          Int @default(autoincrement()) @id()
+  typeId      Int @unique
+  priorityId  Int @unique
+  assigneeId  Int
+  title       String
+  description String
+  estimation  String
+  user        Users @relation(fields: [assigneeId], references: [id])
+  type        TasksTypes?
+  priority    Priorities?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TasksTypes {
+  id          Int @default(autoincrement()) @id()
+  title       String
+  description String
+  task        Tasks @relation(fields: [id], references: [typeId])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Priorities {
+  id          Int @default(autoincrement()) @id()
+  title       String
+  task        Tasks @relation(fields: [id], references: [priorityId])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
