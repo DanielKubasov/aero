@@ -10,24 +10,32 @@ export class UsersService {
     constructor(private prisma: PrismaService) {}
 
     async getAll() {
-        return await this.prisma.users.findMany();
+        return this.prisma.user.findMany();
     }
 
     async getOne(id: number) {
-        return await this.prisma.users.findUnique({
+        return this.prisma.user.findUnique({
             where: {id},
         });
     }
 
+    async getTasks(id: number) {
+        return this.prisma.task.findMany({
+            where: {
+                assigneeId: id,
+            },
+        });
+    }
+
     async create(data: CreateUserDTO) {
-        return await this.prisma.users.create({data});
+        return this.prisma.user.create({data});
     }
 
     async update(id: number, data: UpdateUserDTO) {
-        return this.prisma.users.update({where: {id}, data});
+        return this.prisma.user.update({where: {id}, data});
     }
 
     async delete(id: number) {
-        return this.prisma.users.delete({where: {id}});
+        return this.prisma.user.delete({where: {id}});
     }
 }

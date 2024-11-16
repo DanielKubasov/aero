@@ -19,6 +19,11 @@ export class UsersController {
         return this.usersService.getOne(Number(params.id));
     }
 
+    @Get(':id/tasks')
+    getTasks(@Param() params) {
+        return this.usersService.getTasks(Number(params.id));
+    }
+
     @Post()
     create(@Body() dto: CreateUserDTO) {
         return this.usersService.create(dto);

@@ -10,24 +10,24 @@ export class TasksService {
     constructor(private prisma: PrismaService) {}
 
     async getAll() {
-        return await this.prisma.tasks;
+        return this.prisma.task.findMany();
     }
 
     async getOne(id: number) {
-        return await this.prisma.tasks.findUnique({
+        return this.prisma.task.findUnique({
             where: {id},
         });
     }
 
     async create(data: CreateTaskDTO) {
-        return await this.prisma.tasks.create({data});
+        return this.prisma.task.create({data});
     }
 
     async update(id: number, data: UpdateTaskDTO) {
-        return this.prisma.tasks.update({where: {id}, data});
+        return this.prisma.task.update({where: {id}, data});
     }
 
     async delete(id: number) {
-        return this.prisma.tasks.delete({where: {id}});
+        return this.prisma.task.delete({where: {id}});
     }
 }
