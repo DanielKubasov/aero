@@ -6,37 +6,11 @@
     :root {
         --background: 256 0% 100%;
         --foreground: 240 10% 3.9%;
-
-        --paragraph: 0 0% 25%;
-        --paragraph-muted:  0 0% 50%;
-
-        --primary: 256 84% 63%;
-        --primary-background: 256 100% 96%;
-        --primary-foreground: 256 100% 85%;
-
-        --destructive: 358 100% 60%;
-        --positive: 120 100% 40%;
-
-        --radius: 0.5rem;
     }
 
     .dark {
         --background: 20 14.3% 4.1%;
         --foreground: 0 0% 95%;
-
-        --paragraph: 0 0% 90%;
-        --paragraph-muted:  0 0% 80%;
-
-        --primary-300: 142.1 76.2% 16.3%;
-        --primary-400: 142.1 76.2% 36.3%;
-        --primary-500: 142.1 76.2% 56.3%;
-
-        --secondary-300: 240 4.8% 55.9%;
-        --secondary-400: 240 4.8% 75.9%;
-        --secondary-500: 240 4.8% 95.9%;
-
-        --destructive: 0 62.8% 30.6%;
-        --positive: 0 62.8% 30.6%;
     }
 }
 
@@ -54,11 +28,4 @@
         transition-timing-function: ease;
         transition-duration: 500ms;
     }
-
-    /*.page-transition {*/
-    /*    opacity: 0;*/
-    /*    background: #000;*/
-    /*    transform: translateY(40px);*/
-    /*    filter: blur(12px);*/
-    /*}*/
 }
