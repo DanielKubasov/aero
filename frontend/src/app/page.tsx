@@ -1,11 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
-import {getSession} from 'next-auth/react';
 
-export default function Page() {
-    const session = getSession();
+export default async function Page() {
 
-    console.log(session);
-
-    return <div>Home page! <Link href="/client">Client page</Link></div>;
+    return (
+        <div>
+            This is the Home page!
+            <p></p>
+            <Link href="/client">Go to page, that loads on client</Link>
+            <p></p>
+            <Link href="/tasks">Go to tasks page</Link>
+        </div>
+    );
 }

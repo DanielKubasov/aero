@@ -3,10 +3,9 @@
 import {FC, PropsWithChildren} from 'react';
 
 import {ThemeProvider} from '@/core/providers/ThemeProvider';
-import {getSession, SessionProvider} from 'next-auth/react';
+import {SessionProvider} from 'next-auth/react';
 
-export const Providers: FC<PropsWithChildren> = async ({children}) => {
-    const session = await getSession();
+export const Providers: FC<PropsWithChildren & {session: any}> = ({session, children}) => {
 
     return (
         <SessionProvider session={session}>
@@ -18,6 +17,6 @@ export const Providers: FC<PropsWithChildren> = async ({children}) => {
             >
                 {children}
             </ThemeProvider>
-        </SessionProvider>
+        </ SessionProvider>
     );
 };

@@ -8,5 +8,5 @@ export const ClientComponent = () => {
 
     console.log(session);
 
-    return 'Client component';
+    return <div></div>;
 };

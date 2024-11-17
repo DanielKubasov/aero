@@ -6,6 +6,9 @@ import {Open_Sans} from 'next/font/google';
 import '@/core/styles/globals.css';
 
 import {Providers} from '@/core/providers/Providers';
+import {SessionProvider} from 'next-auth/react';
+import {getServerSession} from 'next-auth/next';
+import {authOptions} from '@/shared/configs/authConfig';
 
 const openSans = Open_Sans({subsets: ['latin']});
 
@@ -19,10 +22,12 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode
 }>) {
+    const session = await getServerSession(authOptions);
+
     return (
         <html lang="en">
             <body className={openSans.className}>
-                <Providers>
+                <Providers session={session}>
                     {children}
                 </Providers>
             </body>
