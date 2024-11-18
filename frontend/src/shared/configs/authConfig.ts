@@ -60,6 +60,11 @@ export const authOptions = {
             return session;
         },
     },
+    pages: {
+        signIn: '/auth/sign-in',
+        signOut: '/auth/sign-out',
+        error: '/auth/error'
+    }
 };
 
 export default NextAuth(authOptions);

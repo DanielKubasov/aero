@@ -1,5 +1,5 @@
 import {$api} from '@/core/api';
-import { ITask } from '@/entities/task';
+import {ITask} from '@/entities/task';
 
 const Page = async () => {
 
@@ -7,7 +7,7 @@ const Page = async () => {
         const {data} = await $api.get<ITask[]>('tasks');
 
         return (
-            <div>
+            <div className="container">
                 {data.map(item => (
                     <li key={item.id}>
                         <b>{item.title}</b>
