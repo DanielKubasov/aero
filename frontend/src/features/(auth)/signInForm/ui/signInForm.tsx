@@ -1,6 +1,7 @@
 'use client';
 
 import React, {FC} from 'react';
+import {useRouter} from 'next/navigation';
 
 import {z} from 'zod';
 
@@ -16,6 +17,8 @@ import {signIn} from 'next-auth/react';
 
 export const SignInForm: FC = () => {
 
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -25,14 +28,13 @@ export const SignInForm: FC = () => {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
-
         if (!values) return;
 
         try {
             await signIn('credentials', {
                 email: values.email,
-                password: values.password
+                password: values.password,
+                callbackUrl: '/'
             });
         } catch (error: unknown) {
             console.error(error);
@@ -41,7 +43,7 @@ export const SignInForm: FC = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-[400px] space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-[400px] space-y-2">
                 <FormField
                     control={form.control}
                     name="email"
