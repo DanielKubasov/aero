@@ -7,7 +7,7 @@ const Page = async () => {
         const {data} = await $api.get<ITask[]>('tasks');
 
         return (
-            <div className="container">
+            <>
                 {data.map(item => (
                     <li key={item.id}>
                         <b>{item.title}</b>
@@ -15,7 +15,7 @@ const Page = async () => {
                         <p><i>{item.estimation}</i></p>
                     </li>
                 ))}
-            </div>
+            </>
         );
     } catch (error: unknown) {
         console.error(error);

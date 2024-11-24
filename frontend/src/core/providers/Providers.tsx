@@ -11,7 +11,7 @@ export const Providers: FC<PropsWithChildren & {session: any}> = ({session, chil
         <SessionProvider session={session}>
             <ThemeProvider
                 attribute="class"
-                defaultTheme="system"
+                defaultTheme="dark"
                 enableSystem
                 disableTransitionOnChange
             >

@@ -10,6 +10,7 @@ import {Providers} from '@/core/providers/Providers';
 
 import {authOptions} from '@/shared/configs/authConfig';
 
+import {Navigation} from '@/widgets/navigation';
 import {Header} from '@/widgets/header';
 
 const openSans = Open_Sans({subsets: ['latin']});
@@ -30,8 +31,13 @@ const RootLayout = async ({
         <html lang="en">
             <body className={openSans.className}>
                 <Providers session={session}>
-                    <Header />
-                    {children}
+                    <div className="root">
+                        <Header className="root__header" session={session} />
+                        <Navigation className="root__navigation" />
+                        <div className="root__content">
+                            {children}
+                        </div>
+                    </div>
                 </Providers>
             </body>
         </html>

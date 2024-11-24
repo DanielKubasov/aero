@@ -1,46 +1,53 @@
 'use client';
 
-import React, {FC} from 'react';
-
-import {useSession, signIn, signOut} from 'next-auth/react';
-
-import {Button} from '@/shared/ui/button';
+import type {FC} from 'react';
 import Link from 'next/link';
 
-export const Header: FC = () => {
-    const {data: session} = useSession();
+import {signOut} from 'next-auth/react';
 
+import {cn} from '@/core/utils/cn';
+
+import {ChevronDown} from 'lucide-react';
+
+import {Avatar, AvatarImage, AvatarFallback} from '@/shared/ui/avatar';
+import {
+    DropdownMenu,
+    DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from '@/shared/ui/dropdown-menu';
+
+import {ToggleNavigation} from '@/features/(navigation)/toggleNavigation';
+
+export const Header: FC<{
+    session: any;
+    className?: string;
+}> = ({className}) => {
     return (
-        <header className="py-4">
-            <div className="container flex justify-between items-center">
-                <div>Hello <b>{session?.user?.email}</b></div>
-                
-                {session && (
-                    <div className="flex items-center">
-                        <ul className="flex items-center gap-2 ml-auto mr-8">
-                            <li><Link href="/">Home</Link></li>
-                            <li><Link href="/tasks">Tasks</Link></li>
-                        </ul>
+        <header className={cn('flex p-4 justify-between border-b border-secondary', className)}>
+            <ToggleNavigation/>
 
-                        <div className="flex gap-1">
-                            <Button onClick={() => signIn()} variant="ghost">Sign in</Button>
-                            <Button onClick={() => signOut()} variant="destructive">Logout</Button>
-                        </div>
-                    </div>
-                )}
+            <div className="flex gap-4 items-center">
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <ChevronDown />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                            <Link className="inline-block w-full h-full" href="/">Profile</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => signOut()}>Sign out</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
 
-                {!session && (
-                    <div>
-                        <div className="flex gap-1">
-                            <Button variant="ghost" asChild>
-                                <Link href="/auth/sign-in">Sign in</Link>
-                            </Button>
-                            <Button asChild>
-                                <Link href="/auth/sign-up">Sign up</Link>
-                            </Button>
-                        </div>
-                    </div>
-                )}
+                <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png"/>
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
             </div>
         </header>
     );
