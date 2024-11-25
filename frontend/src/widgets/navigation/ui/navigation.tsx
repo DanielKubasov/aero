@@ -5,7 +5,7 @@ import React, {FC} from 'react';
 import {useSession} from 'next-auth/react';
 import Link from 'next/link';
 
-import {ClipboardList, House} from 'lucide-react';
+import {ChartArea, ClipboardList} from 'lucide-react';
 
 import {cn} from '@/core/utils/cn';
 
@@ -24,8 +24,8 @@ export const Navigation: FC<{
             <nav className="h-full flex flex-col">
                 {session && (
                     <NavigationList>
-                        <NavigationItem icon={<House/>} url="/">Home</NavigationItem>
-                        <NavigationItem icon={<ClipboardList/>} url="/tasks">My tasks</NavigationItem>
+                        <NavigationItem icon={<ChartArea />} url="/">Dashboard</NavigationItem>
+                        <NavigationItem icon={<ClipboardList/>} url="/tasks">Tasks</NavigationItem>
                     </NavigationList>
                 )}
 
