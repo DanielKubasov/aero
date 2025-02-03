@@ -12,7 +12,7 @@ import {UsersModule} from './users/users.module';
 @Module({
     imports: [
         ConfigModule.forRoot({
-            envFilePath: `.${process.env.NODE_ENV}.env`,
+            envFilePath: `.env.${process.env.NODE_ENV}`,
         }),
         KnexModule.forRoot({
             config: {
