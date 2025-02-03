@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import {InjectConnection} from 'nest-knexjs';
 
 import {Knex} from 'knex';
@@ -22,9 +22,22 @@ export class UsersService {
         return user;
     }
 
-    async createOne(dto: UserDTO): Promise<IUser> {
-        const [user] = await this.knex('users').insert(dto).returning('*');
+    async getOneByEmail(email: string): Promise<IUser> {
+        const user = await this.knex('users').select('*').where('email', '=', email).first();
+
+        if (!user) throw new NotFoundException();
+
         return user;
+    }
+
+    async createOne(dto: UserDTO): Promise<IUser> {
+        const user = await this.getOneByEmail(dto.email);
+
+        if (user) throw new BadRequestException('User with this email already exists.');
+
+        const [created] = await this.knex('users').insert(dto).returning('*');
+
+        return created;
     }
 
     async updateOne(id: string, dto: UserDTO): Promise<IUser> {
