@@ -17,7 +17,7 @@ export class UsersService {
     async getOne(id: string): Promise<IUser> {
         const user = await this.knex('users').select('*').where('id', '=', id).first();
 
-        if (!user) throw new NotFoundException();
+        if (!user) throw new NotFoundException(`User with id = ${id} not found.`);
 
         return user;
     }

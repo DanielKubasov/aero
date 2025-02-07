@@ -1,7 +1,13 @@
-import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    NotFoundException,
+    UnauthorizedException,
+} from '@nestjs/common';
 import {JwtService} from '@nestjs/jwt';
 
 import {UsersService} from '@/users/users.service';
+import type {IUser} from '@/users/interfaces/user.interface';
 
 import {SignInDTO} from './dto/sign-in.dto';
 import {SignUpDTO} from './dto/sign-up.dto';
@@ -23,7 +29,7 @@ export class AuthService {
         if (user.password !== dto.password) throw new BadRequestException('Incorrect password.');
 
         const payload = {
-            sub: user.id,
+            id: user.id,
             email: user.email,
             first_name: user.first_name,
             last_name: user.last_name,
@@ -38,7 +44,7 @@ export class AuthService {
         const user = await this.usersService.createOne(dto);
 
         const payload = {
-            sub: user.id,
+            id: user.id,
             email: user.email,
             first_name: user.first_name,
             last_name: user.last_name,
@@ -47,5 +53,14 @@ export class AuthService {
         return {
             access_token: await this.jwtService.signAsync(payload),
         };
+    }
+
+    async verifyToken(token: string) {
+        try {
+            return this.jwtService.verifyAsync<IUser>(token);
+        } catch (error: unknown) {
+            console.log(error);
+            throw new UnauthorizedException('Invalid access token.');
+        }
     }
 }

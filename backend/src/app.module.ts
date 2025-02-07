@@ -12,6 +12,9 @@ import {AuthModule} from './auth/auth.module';
 import {UsersModule} from './users/users.module';
 
 import {AuthGuard} from '@/auth/guards/auth.guard';
+import { SpacesModule } from './spaces/spaces.module';
+import { ProjectsModule } from './projects/projects.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
     imports: [
@@ -36,6 +39,9 @@ import {AuthGuard} from '@/auth/guards/auth.guard';
         }),
         AuthModule,
         UsersModule,
+        SpacesModule,
+        ProjectsModule,
+        TasksModule,
     ],
     controllers: [AppController],
     providers: [
