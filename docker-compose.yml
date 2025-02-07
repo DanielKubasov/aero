@@ -1,0 +1,32 @@
+networks:
+  dev:
+
+services:
+  backend:
+    build:
+      context: './backend'
+    environment:
+      DATABASE_HOST: localhost
+      DATABASE_PORT: 5432
+      DATABASE_USER: root
+      DATABASE_PASSWORD: secret
+      DATABASE_NAME: aero
+    restart: always
+    networks:
+      dev:
+
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - "5432:5432"
+    networks:
+      dev:
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
