@@ -22,10 +22,10 @@ export class UsersService {
         return user;
     }
 
-    async getOneByEmail(email: string): Promise<IUser> {
+    async getOneByEmail(email: string): Promise<IUser | null> {
         const user = await this.knex('users').select('*').where('email', '=', email).first();
 
-        if (!user) throw new NotFoundException();
+        if (!user) return null;
 
         return user;
     }
