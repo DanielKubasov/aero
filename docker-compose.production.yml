@@ -49,8 +49,9 @@ services:
       DB_USER: $POSTGRES_USER
       DB_PASSWORD: $POSTGRES_PASSWORD
       DB_NAME: $POSTGRES_DATABASE
-      NODE_ENV: development
+      NODE_ENV: production
       JWT_SECRET: $JWT_SECRET
+    command: npm run start:prod
     stdin_open: true
     tty: true
 
