@@ -1,11 +1,15 @@
-FROM node-20:slim
+FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /api
+
+RUN npm install -g knex
 
 COPY package*.json .
 
-RUN pnpm build
+RUN npm install
 
 COPY . .
 
-CMD ["pnpm", "run", "start:dev"]
+RUN npm run build
+
+CMD ["npm", "run", "start:dev"]
