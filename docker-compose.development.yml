@@ -2,6 +2,7 @@ version: '1.0'
 
 services:
   postgres:
+    container_name: database_service
     image: postgres
     restart: unless-stopped
     env_file: ./.env
@@ -21,6 +22,7 @@ services:
       - db:/var/lib/postgres
 
   migration:
+    container_name: migration_service
     build: ./backend
     env_file: ./.env
     environment:
@@ -35,6 +37,7 @@ services:
     command: knex migrate:latest
 
   backend:
+    container_name: backend_service
     depends_on:
       migration:
         condition: service_completed_successfully
@@ -43,6 +46,15 @@ services:
     env_file: ./.env
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    develop:
+      watch:
+        - action: rebuild
+          path: ./backend
+          target: /api
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./backend/package.json
     environment:
       DB_HOST: postgres
       DB_PORT: $POSTGRES_DOCKER_PORT

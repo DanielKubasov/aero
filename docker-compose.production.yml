@@ -51,7 +51,7 @@ services:
       DB_NAME: $POSTGRES_DATABASE
       NODE_ENV: production
       JWT_SECRET: $JWT_SECRET
-    command: npm run start:prod
+    command: npm run start
     stdin_open: true
     tty: true
 
