@@ -10,4 +10,4 @@ RUN npm install --force
 
 COPY . .
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "start"]

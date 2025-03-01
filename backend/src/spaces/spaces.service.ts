@@ -1,4 +1,4 @@
-import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {InjectConnection} from 'nest-knexjs';
 
 import {Knex} from 'knex';
@@ -29,23 +29,45 @@ export class SpacesService {
         return space;
     }
 
-    async getSpacesByUserId(id: string) {
-        const {rows} = await this.knex.raw(`
-            SELECT spaces.id, spaces.owner_id, spaces.name, spaces.description, spaces.created_at, spaces.updated_at
-            FROM user_spaces
-                     INNER JOIN spaces ON user_spaces.user_id = spaces.id
-            WHERE user_spaces.user_id = ${id}
-        `);
+    async getSpacesByUserId(user_id: string) {
+        const spacc = await this.knex('user_spaces').select('*');
 
-        return rows;
+        console.log(spacc);
+        console.log(user_id);
+
+        return this.knex('user_spaces')
+            .join('spaces', 'user_spaces.space_id', 'spaces.id')
+            .select(
+                'spaces.id',
+                'spaces.name',
+                'spaces.description',
+                'spaces.created_at',
+                'spaces.updated_at'
+            )
+            .where('user_spaces.user_id', user_id);
     }
 
     async createOne(dto: CreateSpaceDTO): Promise<ISpace> {
-        await this.usersService.getOne(String(dto.owner_id));
+        await this.usersService.getOne(String(dto.user_id));
 
-        const [space] = await this.knex('spaces').insert(dto).returning('*');
+        return this.knex.transaction(async trx => {
+            const [space] = await this.knex('spaces')
+                .insert({
+                    name: dto.name,
+                    description: dto.description,
+                })
+                .transacting(trx)
+                .returning('*');
 
-        return space;
+            await this.knex('user_spaces')
+                .insert({
+                    user_id: dto.user_id,
+                    space_id: space.id,
+                })
+                .transacting(trx);
+
+            return space;
+        });
     }
 
     async updateOne(id: string, dto: UpdateSpaceDTO): Promise<ISpace> {
@@ -74,13 +96,9 @@ export class SpacesService {
         await this.getOne(String(dto.space_id));
         await this.usersService.getOne(String(dto.user_id));
 
-        const record = await this.knex('user_spaces')
-            .select('*')
-            .where('user_id', '=', dto.user_id)
-            .first();
-
-        if (record) throw new BadRequestException('One user can only have one space assigned.');
-
-        await this.knex('user_spaces').insert(dto);
+        await this.knex('user_spaces').insert({
+            user_id: dto.user_id,
+            space_id: dto.space_id,
+        });
     }
 }

@@ -1,14 +1,4 @@
-import {
-    Body,
-    Controller,
-    Get,
-    Post,
-    Headers,
-    Param,
-    Patch,
-    Delete,
-    BadRequestException,
-} from '@nestjs/common';
+import {Body, Controller, Get, Post, Headers, Param, Patch, Delete} from '@nestjs/common';
 
 import {AuthService} from '@/auth/auth.service';
 
@@ -31,7 +21,7 @@ export class SpacesController {
     @Get('my')
     async getSpacesByUserId(@Headers('authorization') authorization: string) {
         const user = await this.authService.parseAuthorization(authorization);
-
+        console.log(user);
         return this.spacesService.getSpacesByUserId(String(user.id));
     }
 
@@ -41,7 +31,7 @@ export class SpacesController {
     }
 
     @Post()
-    createOne(@Body() dto: CreateSpaceDTO) {
+    async createOne(@Body() dto: CreateSpaceDTO) {
         return this.spacesService.createOne(dto);
     }
 

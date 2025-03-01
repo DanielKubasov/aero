@@ -4,6 +4,9 @@ import {
     NotFoundException,
     UnauthorizedException,
 } from '@nestjs/common';
+
+import sha256 from 'crypto-js/sha256';
+
 import {JwtService} from '@nestjs/jwt';
 
 import {UsersService} from '@/users/users.service';
@@ -13,21 +16,25 @@ import {SignInDTO} from './dto/sign-in.dto';
 import {SignUpDTO} from './dto/sign-up.dto';
 
 import type {AuthResponse} from './interfaces/auth-response.interface';
+import {InjectConnection} from 'nest-knexjs';
+import {Knex} from 'knex';
 
 @Injectable()
 export class AuthService {
     constructor(
         private usersService: UsersService,
-        private jwtService: JwtService
-    ) {
-    }
+        private jwtService: JwtService,
+        @InjectConnection() private readonly knex: Knex
+    ) {}
 
     async signIn(dto: SignInDTO): Promise<AuthResponse> {
-        const user = await this.usersService.getOneByEmail(dto.email);
+        const user = await this.knex<IUser>('users').select('*').where('email', dto.email).first();
 
         if (!user) throw new NotFoundException('User not found.');
 
-        if (user.password !== dto.password) throw new BadRequestException('Incorrect password.');
+        const hash = await sha256(dto.password);
+
+        if (user.password !== hash) throw new BadRequestException('Incorrect password.');
 
         const payload = {
             id: user.id,
@@ -46,7 +53,6 @@ export class AuthService {
 
         const payload = {
             id: user.id,
-            email: user.email,
             first_name: user.first_name,
             last_name: user.last_name,
         };

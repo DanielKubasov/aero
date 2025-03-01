@@ -15,7 +15,6 @@ export async function up(knex: Knex): Promise<void> {
     // Spaces table
     await knex.schema.createTable('spaces', t => {
         t.increments('id').primary();
-        t.integer('owner_id').references('id').inTable('users');
         t.string('name').nullable();
         t.text('description').nullable();
         t.timestamps(true, true);
@@ -77,20 +76,23 @@ export async function up(knex: Knex): Promise<void> {
 
     // Users to roles table
     await knex.schema.createTable('user_roles', t => {
-        t.integer('user_id').primary().references('id').inTable('users');
-        t.integer('role_id').primary().references('id').inTable('roles');
+        t.integer('user_id').references('id').inTable('users').onDelete('CASCADE');
+        t.integer('role_id').references('id').inTable('roles').onDelete('CASCADE');
+        t.primary(['user_id', 'role_id']);
     });
 
     // Users to spaces table
     await knex.schema.createTable('user_spaces', t => {
-        t.integer('user_id').primary().references('id').inTable('users');
-        t.integer('space_id').primary().references('id').inTable('spaces');
+        t.integer('user_id').references('id').inTable('users').onDelete('CASCADE');
+        t.integer('space_id').references('id').inTable('spaces').onDelete('CASCADE');
+        t.primary(['user_id', 'space_id']);
     });
 
     // Users to tasks table
     await knex.schema.createTable('user_tasks', t => {
-        t.integer('user_id').primary().references('id').inTable('users');
-        t.integer('task_id').primary().references('id').inTable('tasks');
+        t.integer('user_id').references('id').inTable('users').onDelete('CASCADE');
+        t.integer('task_id').references('id').inTable('tasks').onDelete('CASCADE');
+        t.primary(['user_id', 'task_id']);
     });
 }
 

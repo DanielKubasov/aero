@@ -6,7 +6,7 @@ export class CreateSpaceDTO {
     @IsNumber({}, {message: 'Id must be a number.'})
     @Min(1, {message: 'Id cannot be less than 1.'})
     @IsNotEmpty()
-    owner_id: number;
+    user_id: number;
 
     @ApiProperty()
     @IsString({message: 'Name of the space must be a string.'})
