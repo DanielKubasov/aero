@@ -6,10 +6,8 @@ RUN npm install -g knex
 
 COPY package*.json .
 
-RUN npm install
+RUN npm install --force
 
 COPY . .
-
-RUN npm run build
 
 CMD ["npm", "run", "start:dev"]

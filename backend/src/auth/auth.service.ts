@@ -19,7 +19,8 @@ export class AuthService {
     constructor(
         private usersService: UsersService,
         private jwtService: JwtService
-    ) {}
+    ) {
+    }
 
     async signIn(dto: SignInDTO): Promise<AuthResponse> {
         const user = await this.usersService.getOneByEmail(dto.email);
@@ -53,6 +54,18 @@ export class AuthService {
         return {
             access_token: await this.jwtService.signAsync(payload),
         };
+    }
+
+    async parseAuthorization(authorization: string): Promise<IUser> {
+        const arr = authorization.split(' ');
+
+        if (arr.length < 2) throw new BadRequestException('Invalid token.');
+
+        const token = arr[1];
+
+        if (!token) throw new BadRequestException('Invalid token.');
+
+        return await this.verifyToken(token);
     }
 
     async verifyToken(token: string) {

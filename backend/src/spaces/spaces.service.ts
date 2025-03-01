@@ -1,11 +1,11 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import {InjectConnection} from 'nest-knexjs';
 
 import {Knex} from 'knex';
 
 import type {ISpace} from './interfaces/space.interface';
 
-import {SpaceDTO} from './dto/space.dto';
+import {CreateSpaceDTO, UpdateSpaceDTO} from './dto/space.dto';
 import {AssignSpaceDTO} from './dto/assign-space.dto';
 
 import {UsersService} from '@/users/users.service';
@@ -40,14 +40,7 @@ export class SpacesService {
         return rows;
     }
 
-    async assignSpace(dto: AssignSpaceDTO): Promise<void> {
-        await this.getOne(String(dto.space_id));
-        await this.usersService.getOne(String(dto.user_id));
-
-        await this.knex('user_spaces').insert(dto);
-    }
-
-    async createOne(dto: SpaceDTO): Promise<ISpace> {
+    async createOne(dto: CreateSpaceDTO): Promise<ISpace> {
         await this.usersService.getOne(String(dto.owner_id));
 
         const [space] = await this.knex('spaces').insert(dto).returning('*');
@@ -55,13 +48,15 @@ export class SpacesService {
         return space;
     }
 
-    async updateOne(id: string, dto: SpaceDTO): Promise<ISpace> {
+    async updateOne(id: string, dto: UpdateSpaceDTO): Promise<ISpace> {
         await this.getOne(id);
-        await this.usersService.getOne(String(dto.owner_id));
 
         const [space] = await this.knex('spaces')
-            .update(dto)
-            .where('owner_id', '=', id)
+            .update({
+                name: dto.name,
+                description: dto.description,
+            })
+            .where('id', '=', id)
             .returning('*');
 
         return space;
@@ -73,5 +68,19 @@ export class SpacesService {
         const [space] = await this.knex('spaces').delete().where('id', '=', id).returning('*');
 
         return space;
+    }
+
+    async assignOne(dto: AssignSpaceDTO): Promise<void> {
+        await this.getOne(String(dto.space_id));
+        await this.usersService.getOne(String(dto.user_id));
+
+        const record = await this.knex('user_spaces')
+            .select('*')
+            .where('user_id', '=', dto.user_id)
+            .first();
+
+        if (record) throw new BadRequestException('One user can only have one space assigned.');
+
+        await this.knex('user_spaces').insert(dto);
     }
 }

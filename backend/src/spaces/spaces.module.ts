@@ -10,5 +10,6 @@ import {AuthModule} from '@/auth/auth.module';
     imports: [UsersModule, AuthModule],
     controllers: [SpacesController],
     providers: [SpacesService],
+    exports: [SpacesService]
 })
 export class SpacesModule {}
