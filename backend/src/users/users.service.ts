@@ -1,9 +1,9 @@
 import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
-import {InjectConnection} from 'nest-knexjs';
 
+import {InjectConnection} from 'nest-knexjs';
 import {Knex} from 'knex';
 
-import sha256 from 'crypto-js/sha256';
+import * as bcrypt from 'bcrypt';
 
 import {UserDTO} from './dto/user.dto';
 import type {IUser} from './interfaces/user.interface';
@@ -48,7 +48,7 @@ export class UsersService {
 
         if (user) throw new BadRequestException('User with this email already exists.');
 
-        const hash = await sha256(dto.password);
+        const hash = await bcrypt.hash(dto.password, 10);
 
         const [newUser] = await this.knex('users')
             .insert({

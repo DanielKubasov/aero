@@ -5,9 +5,11 @@ import {
     UnauthorizedException,
 } from '@nestjs/common';
 
-import sha256 from 'crypto-js/sha256';
-
+import {Knex} from 'knex';
+import {InjectConnection} from 'nest-knexjs';
 import {JwtService} from '@nestjs/jwt';
+
+import * as bcrypt from 'bcrypt';
 
 import {UsersService} from '@/users/users.service';
 import type {IUser} from '@/users/interfaces/user.interface';
@@ -16,8 +18,6 @@ import {SignInDTO} from './dto/sign-in.dto';
 import {SignUpDTO} from './dto/sign-up.dto';
 
 import type {AuthResponse} from './interfaces/auth-response.interface';
-import {InjectConnection} from 'nest-knexjs';
-import {Knex} from 'knex';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +32,7 @@ export class AuthService {
 
         if (!user) throw new NotFoundException('User not found.');
 
-        const hash = await sha256(dto.password);
+        const hash = await bcrypt.hash(dto.password, 10);
 
         if (user.password !== hash) throw new BadRequestException('Incorrect password.');
 
